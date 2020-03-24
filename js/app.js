@@ -44,8 +44,9 @@ $(function () {
         // execute this function if request is successful
         console.log(response)
         console.log(response.results)
-        // $('#top-paragraph').html(response.results[0].question)
-        displayQuestions(response.results)
+
+        displayQuestion(response.results)
+        displayAnswers(response.results)
 
 
       })
@@ -55,29 +56,56 @@ $(function () {
       })
     }
 
-    function displayQuestions(questions){
-
-      const questionForm = questions.map((question) =>{
-
-      return (
-        `
-        <form >
-          <p>Please select your answer:</p>
-          <input type="radio" id="choice-1" name="answer" value="1">
-          <label for="1">${question.correct_answer}</label><br><br>
-          <input type="radio" id="choice-2" name="answer" value="2">
-          <label for="2">${question.incorrect_answers[0]}</label><br><br>
-          <input type="radio" id="choice-3" name="answer" value="3">
-          <label for="3">${question.incorrect_answers[1]}</label><br><br>
-          <input type="radio" id="choice-4" name="answer" value="4">
-          <label for="4">${question.incorrect_answers[2]}</label>
-
-          <br><br>
-        `
-          )
-        })
-        console.log(questionForm)
-        $('form').html(questionForm)
+    let n = 0
+    function displayQuestion(question){
+      $('#question').html(`<p>${question[n].question}</p>`)
+      console.log(question.length)
     }
+
+    function displayAnswers(question){
+      if (question[n].type === 'multiple'){
+        $('#answers').html(
+          `
+            <input type="radio" id="choice-1" name="answer" value="1">
+            <label for="1">${question[n].correct_answer}</label><br><br>
+            <input type="radio" id="choice-2" name="answer" value="2">
+            <label for="2">${question[n].incorrect_answers[0]}</label><br><br>
+            <input type="radio" id="choice-3" name="answer" value="3">
+            <label for="3">${question[n].incorrect_answers[1]}</label><br><br>
+            <input type="radio" id="choice-4" name="answer" value="4">
+            <label for="4">${question[n].incorrect_answers[2]}</label>
+            <br><br>
+            <button id= "submit-answer">Submit</button>
+          `
+            )
+      } else {
+        $('#answers').html(
+          `
+            <input type="radio" id="choice-1" name="answer" value="1">
+            <label for="1">${question[n].correct_answer}</label><br><br>
+            <input type="radio" id="choice-2" name="answer" value="2">
+            <label for="2">${question[n].incorrect_answers[0]}</label><br><br>
+            <br><br>
+            <button id= "submit-answer">Submit</button>
+          `
+            )
+          }
+
+      $("#submit-answer").click((event) => {
+        n++
+        if (n < question.length){
+          displayQuestion(question)
+          displayAnswers(question)
+        } else {
+          endGame()
+        }
+
+      })
+    }
+
+    function endGame(){
+      $('.question-form').html("The game is over")
+    }
+
 
 })
