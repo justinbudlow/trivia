@@ -62,50 +62,107 @@ $(function () {
       console.log(question.length)
     }
 
-    function displayAnswers(question){
-      if (question[n].type === 'multiple'){
-        $('#answers').html(
+    function displayAnswers(question) {
+
+    const correctAnswer = question[n].correct_answer
+    const incorrectAnswer1 = question[n].incorrect_answers[0]
+    const incorrectAnswer2 = question[n].incorrect_answers[1]
+    const incorrectAnswer3 = question[n].incorrect_answers[2]
+    const arrayAnswers = [correctAnswer, incorrectAnswer1, incorrectAnswer2, incorrectAnswer3]
+
+    if (question[n].type === 'multiple') {
+
+      function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+        return array;
+      }
+      const shuffledArray = shuffle(arrayAnswers)
+      $('#answers').html(
+        `
+            <input type="radio" id="choice-1" class="answer" value='${shuffledArray[0]}'>
+            <label for="1">${shuffledArray[0]}</label><br><br>
+            <input type="radio" id="choice-2" class="answer" value='${shuffledArray[1]}'>
+            <label for="2">${shuffledArray[1]}</label><br><br>
+            <input type="radio" id="choice-3" class="answer" value='${shuffledArray[2]}'>
+            <label for="3">${shuffledArray[2]}</label><br><br>
+            <input type="radio" id="choice-4" class="answer" value='${shuffledArray[3]}'>
+            <label for="4">${shuffledArray[3]}</label>
+            <br><br>
+            <button id= "submit-answer">Submit</button>
+            <div id = "next"></div>
           `
+      )
+    } else {
+      $('#answers').html(
+        `
             <input type="radio" id="choice-1" name="answer" value="1">
             <label for="1">${question[n].correct_answer}</label><br><br>
             <input type="radio" id="choice-2" name="answer" value="2">
             <label for="2">${question[n].incorrect_answers[0]}</label><br><br>
-            <input type="radio" id="choice-3" name="answer" value="3">
-            <label for="3">${question[n].incorrect_answers[1]}</label><br><br>
-            <input type="radio" id="choice-4" name="answer" value="4">
-            <label for="4">${question[n].incorrect_answers[2]}</label>
             <br><br>
-            <button id= "submit-answer">Submit</button>
+            <div id = "submit-button">
+            <button id= "submit-answer">Submit</button></div>
           `
-            )
-      } else {
-        $('#answers').html(
-          `
-            <input type="radio" id="choice-1" name="answer" value="1">
-            <label for="1">${question[n].correct_answer}</label><br><br>
-            <input type="radio" id="choice-2" name="answer" value="2">
-            <label for="2">${question[n].incorrect_answers[0]}</label><br><br>
-            <br><br>
-            <button id= "submit-answer">Submit</button>
-          `
-            )
-          }
+      )
+    }
 
       $("#submit-answer").click((event) => {
+        event.preventDefault()
+        console.log()
+
+        let userAnswer = ''
+
+        $('.answer').each((index, element) => {
+          console.log(element)
+            if (element.checked === true){
+              userAnswer = element.value
+            }
+          })
+
+        console.log(userAnswer)
+        console.log(correctAnswer)
+
+        if(userAnswer === correctAnswer){
+          console.log("Correct")
+        } else {
+          console.log("Incorrect")
+        }
+
+        $("#submit-answer").attr("disabled", true)
+        $('#next').html(`<button id="next-question">Next</button>`)
+
+        $('#next-question').click((event)=>{
+          event.preventDefault()
+          nextQuestion(question)
+        })
         n++
-        if (n < question.length){
+      })
+    }
+
+    function nextQuestion(question){
+      console.log(n)
+      console.log(question.length)
+      if (n < question.length){
           displayQuestion(question)
           displayAnswers(question)
         } else {
           endGame()
         }
-
-      })
     }
+
 
     function endGame(){
       $('.question-form').html("The game is over")
     }
-
 
 })
