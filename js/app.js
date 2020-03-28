@@ -1,6 +1,7 @@
 $(function () {
 
   let numberOfQuestions, category, difficult, type
+  let userScore = 0
 
   $("#start-game").click((event) => {
     console.log('starting a new game')
@@ -42,11 +43,11 @@ $(function () {
       })
       .done((response) => {
         // execute this function if request is successful
-        console.log(response)
         console.log(response.results)
 
         displayQuestion(response.results)
         displayAnswers(response.results)
+        updateUserScore()
 
 
       })
@@ -57,14 +58,17 @@ $(function () {
     }
 
     let n = 0
+    function updateUserScore(){
+      $('.score').html(`Your score: ${userScore}`)
+    }
+
     function displayQuestion(question){
       $('#question').html(`<p>${question[n].question}</p>`)
-      console.log(question.length)
     }
 
     function displayAnswers(question) {
 
-    const correctAnswer = question[n].correct_answer
+    let correctAnswer = question[n].correct_answer
     const incorrectAnswer1 = question[n].incorrect_answers[0]
     const incorrectAnswer2 = question[n].incorrect_answers[1]
     const incorrectAnswer3 = question[n].incorrect_answers[2]
@@ -105,25 +109,25 @@ $(function () {
     } else {
       $('#answers').html(
         `
-            <input type="radio" id="choice-1" name="answer" value="1">
-            <label for="1">${question[n].correct_answer}</label><br><br>
-            <input type="radio" id="choice-2" name="answer" value="2">
-            <label for="2">${question[n].incorrect_answers[0]}</label><br><br>
+            <input type="radio" id="choice-1" class="answer" value="True">
+            <label for="1">True</label><br><br>
+            <input type="radio" id="choice-2" class="answer" value="False">
+            <label for="2">False</label><br><br>
             <br><br>
-            <div id = "submit-button">
-            <button id= "submit-answer">Submit</button></div>
+            <button id= "submit-answer">Submit</button>
+            <div id = "next"></div>
           `
       )
     }
 
       $("#submit-answer").click((event) => {
         event.preventDefault()
-        console.log()
+
+        if (checkRadioButtons() == true){
 
         let userAnswer = ''
 
         $('.answer').each((index, element) => {
-          console.log(element)
             if (element.checked === true){
               userAnswer = element.value
             }
@@ -132,11 +136,20 @@ $(function () {
         console.log(userAnswer)
         console.log(correctAnswer)
 
-        if(userAnswer === correctAnswer){
+        function decodeHtml(html) {
+            var txt = document.createElement("textarea")
+            txt.innerHTML = html
+            return txt.value
+          }
+
+        if(userAnswer === decodeHtml(correctAnswer)){
           console.log("Correct")
+          userScore += 1
         } else {
           console.log("Incorrect")
         }
+
+        updateUserScore()
 
         $("#submit-answer").attr("disabled", true)
         $('#next').html(`<button id="next-question">Next</button>`)
@@ -146,12 +159,14 @@ $(function () {
           nextQuestion(question)
         })
         n++
+
+      } else { alert("You must choose an answer")}
+
       })
+
     }
 
     function nextQuestion(question){
-      console.log(n)
-      console.log(question.length)
       if (n < question.length){
           displayQuestion(question)
           displayAnswers(question)
@@ -164,5 +179,15 @@ $(function () {
     function endGame(){
       $('.question-form').html("The game is over")
     }
+
+    function checkRadioButtons(){
+      var radioName = 'answer';
+      if ($('input[class='+ radioName +']:checked').length) {
+        return true; // allow whatever action would normally happen to continue
+        } else {
+          return false; // stop whatever action would normally happen
+        }
+      }
+
 
 })
