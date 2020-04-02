@@ -68,7 +68,7 @@ $(function () {
 
   //displays the current question
   function displayQuestion(question) {
-    $('#question').html(`<p>${question[n].question}</p>`)
+    $('.question').html(`<p>${question[n].question}</p>`)
   }
 
   //displays the answer options for the current question

@@ -1,17 +1,31 @@
 body {
   font-family: 'Open Sans', sans-serif;
-  background-color: pink;
+  background-color: beige;
 }
 
 .container {
+  padding-top: 50px;
+  padding-bottom: 50px;
   width: 1080px;
   margin: 0 auto;
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: flex-start;
 }
 
-.answer{
-  color: green;
+.question-form{
+  width: 1080px;
+  margin: 0 auto;
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: flex-start;
 }
 
-.form-control {
-  
+.form-label {
+  width: 1080px;
+  margin: 0 auto;
 }
