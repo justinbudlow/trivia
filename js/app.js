@@ -155,7 +155,7 @@ $(function () {
             let radioArray = (element.id).split('')
             selectedRadio = radioArray[radioArray.length - 1]
           } else {
-            if (element.value === correctAnswer) {
+            if (element.value === decodeHtml(correctAnswer)) {
               let unselectedRadioArray = (element.id).split('')
               unselectedRadio = unselectedRadioArray[unselectedRadioArray.length - 1]
               $(`#${unselectedRadio}`).css("color", "green")
