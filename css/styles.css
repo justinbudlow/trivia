@@ -104,7 +104,6 @@ h1{
 	font-weight:normal;
 }
 
-
 .configuration {
   font-weight: bold;
   font-size: 1em;
@@ -190,4 +189,8 @@ h4 {
   display: flex;
   font-size: 1.5em;
   margin-block-start: 1em;
+}
+
+.q {
+  width:700px;
 }

@@ -46,7 +46,6 @@ $(function () {
     })
       .done((response) => {
         // execute this function if request is successful
-        console.log(response.results)
 
         displayQuestion(response.results)
         displayAnswers(response.results)
