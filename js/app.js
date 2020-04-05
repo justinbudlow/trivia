@@ -115,8 +115,8 @@ $(function () {
             <input type="radio" id="choice-4" name= "answer" class="answer" value='${shuffledArray[3]}'>
             <label for="4" id="4">${shuffledArray[3]}</label>
             <br><br>
-            <button id= "submit-answer">Submit</button>
-            <div id = "next"></div>
+            <button id="submit-answer">Submit</button>
+            <div id="next"></div>
           `
       )
     } else {
@@ -182,15 +182,30 @@ $(function () {
         updateUserScore()
 
         //disable the submit button
-        $("#submit-answer").attr("disabled", true)
+        $("#submit-answer").remove()
 
         //display a "next" button for user to advance to next question
-        $('#next').html(`<button id="next-question">Next</button>`)
+        // $('#next').html(`<button id="next-question">Next</button>`)
 
-        $('#next-question').click((event) => {
-          event.preventDefault()
+        // $('#next-question').click((event) => {
+        //   event.preventDefault()
+        //   nextQuestion(question)
+        // })
+
+        var counter = 3;
+        const stopId = setInterval(function(){
+          if (counter > 0) {
+            console.log(counter);
+          }
+          counter--
+          }, 1000);
+
+        setTimeout(() => {
           nextQuestion(question)
-        })
+          clearInterval(stopId)
+        }, 3000)
+
+
 
         //increment the iterator that keeps track of which question/answers should be shown
         n++
@@ -215,7 +230,7 @@ $(function () {
 
 
   function endGame() {
-    $('.question-form').html("The game is over")
+    $('.game-over').html("The game is over")
   }
 
   //function that returns true if at least one radio button is checked and false if none are
