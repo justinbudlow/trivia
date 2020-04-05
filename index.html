@@ -10,14 +10,18 @@
   <body>
     <div class="container">
       <h1>Justin's Trivia </h1>
+
+      <div class= 'summary'>
         <div class = 'score'></div>
+        <div class = 'question-number'></div>
+      </div>
 
     <form class="form-api">
   		<h2 class="question-select-heading">Configure your game:</h2>
 
       <div class="configurations">
   		<label for="trivia_amount">Questions:</label>
-  		<input type="number" name="trivia_amount" id="trivia_amount" class="input-field" min="1" max="10" value="5">
+  		<input type="number" name="trivia_amount" id="trivia_amount" class="input-field" min="1" max="50" value="10">
 
   		<br><br>
 
@@ -76,12 +80,21 @@
     </form>
 
 
-    <div class='details'> </div>
+    <div class="game-over">
+      <p id="done"></p>
+      <div class="play-again"></div>
+    </div>
 
-    <form class = 'question-form'>
-      <p class = 'question'></p>
+    <div class = 'question-group'>
+      <div class="q">
+        <h4 class = 'question'></h4>
+      </div>
       <div class = "answers"> </div>
-    </form>
+    </div>
+
+
+    <div class='countdown'></div>
+
 
 
     </div>

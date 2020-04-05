@@ -8,7 +8,6 @@ $(function () {
   //save these values in variables to be used as query params in the API call to the triva API
   $("#start-game").click((event) => {
     event.preventDefault()
-
     numberOfQuestions = $('#trivia_amount').val()
     category = $('#trivia_category').val()
     difficulty = $('#trivia_difficulty').val()
@@ -52,6 +51,7 @@ $(function () {
         displayQuestion(response.results)
         displayAnswers(response.results)
         updateUserScore()
+        updateQuestionNumber()
       })
       .fail(() => {
         // execute this function if request fails
@@ -63,12 +63,16 @@ $(function () {
 
   //displays user current score. should always start at 0
   function updateUserScore() {
-    $('.score').html(`Your score: ${userScore}`)
+    $('.score').html(`<i>Your score</i>: ${userScore}`)
+  }
+
+  function updateQuestionNumber() {
+    $('.question-number').html(`<i>Question</i>: ${n+1} of ${numberOfQuestions}`)
   }
 
   //displays the current question
   function displayQuestion(question) {
-    $('.question').html(`<p>${question[n].question}</p>`)
+    $('.question').html(`${question[n].question}`)
   }
 
   //displays the answer options for the current question
@@ -115,8 +119,9 @@ $(function () {
             <input type="radio" id="choice-4" name= "answer" class="answer" value='${shuffledArray[3]}'>
             <label for="4" id="4">${shuffledArray[3]}</label>
             <br><br>
-            <button id="submit-answer">Submit</button>
-            <div id="next"></div>
+            <div class="submit-answer">
+              <button id="submit-answer">Submit</button>
+            </div>
           `
       )
     } else {
@@ -182,7 +187,7 @@ $(function () {
         updateUserScore()
 
         //disable the submit button
-        $("#submit-answer").remove()
+        $("#submit-answer").attr("disabled", true)
 
         //display a "next" button for user to advance to next question
         // $('#next').html(`<button id="next-question">Next</button>`)
@@ -192,23 +197,30 @@ $(function () {
         //   nextQuestion(question)
         // })
 
-        var counter = 3;
-        const stopId = setInterval(function(){
-          if (counter > 0) {
-            console.log(counter);
-          }
-          counter--
-          }, 1000);
-
-        setTimeout(() => {
-          nextQuestion(question)
-          clearInterval(stopId)
-        }, 3000)
-
 
 
         //increment the iterator that keeps track of which question/answers should be shown
         n++
+
+        var counter = 3;
+        const stopId = setInterval(function(){
+          if (counter >= 0) {
+            if(n <question.length){
+            $('.countdown').html(`Next question in: ${counter}`)
+          }}
+          counter--
+        }, 900);
+
+        setTimeout(() => {
+          advance(question)
+          clearInterval(stopId)
+
+          if (n<question.length){
+          $('.countdown').html('')
+          updateQuestionNumber()
+          }
+        }, 3500)
+
 
       } else //if no radio button is selected, pop an alert
       { alert("You must choose an answer") }
@@ -219,7 +231,7 @@ $(function () {
 
 
   //function to show next question is questions remain, otherwise end the game
-  function nextQuestion(question) {
+  function advance(question) {
     if (n < question.length) {
       displayQuestion(question)
       displayAnswers(question)
@@ -230,8 +242,19 @@ $(function () {
 
 
   function endGame() {
-    $('.game-over').html("The game is over")
+    $('.question-group').html('')
+    $('.question-number').html('')
+    $('.countdown').remove()
+    $('#done').html("Game Over")
+    $('.play-again').html(`<button id="restart">Play Again</button>`)
   }
+
+  $('.play-again').click((event) => {
+    event.preventDefault()
+    console.log('restarting')
+    reloadPage()
+    // $('form-api').html(`${startingHtml}`)
+  })
 
   //function that returns true if at least one radio button is checked and false if none are
   function checkRadioButtons() {
@@ -242,6 +265,10 @@ $(function () {
       return false; // stop whatever action would normally happen
     }
   }
+
+  function reloadPage(){
+        location.reload();
+    }
 
 
 })
