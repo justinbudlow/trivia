@@ -243,6 +243,7 @@ $(function () {
 
 
   function endGame() {
+    $('.score').html(`<i>Your score</i>: ${userScore} / ${numberOfQuestions}`)
     $('.question-group').html('')
     $('.question-number').html('')
     $('.countdown').remove()
