@@ -110,13 +110,13 @@ $(function () {
         //display answer options in radio buttons
         `
             <input type="radio" id="choice-1" name= "answer" class="answer" value='${shuffledArray[0]}'>
-            <label for="1" id="1">${shuffledArray[0]}</label><br><br>
+            <label for="choice-1" id="1">${shuffledArray[0]}</label><br><br>
             <input type="radio" id="choice-2" name= "answer" class="answer" value='${shuffledArray[1]}'>
-            <label for="2" id="2">${shuffledArray[1]}</label><br><br>
+            <label for="choice-2" id="2">${shuffledArray[1]}</label><br><br>
             <input type="radio" id="choice-3" name= "answer" class="answer" value='${shuffledArray[2]}'>
-            <label for="3" id="3">${shuffledArray[2]}</label><br><br>
+            <label for="choice-3" id="3">${shuffledArray[2]}</label><br><br>
             <input type="radio" id="choice-4" name= "answer" class="answer" value='${shuffledArray[3]}'>
-            <label for="4" id="4">${shuffledArray[3]}</label>
+            <label for="choice-4" id="4">${shuffledArray[3]}</label>
             <br><br>
             <div class="submit-answer">
               <button id="submit-answer">Submit</button>
@@ -129,12 +129,14 @@ $(function () {
       $('.answers').html(
         `
             <input type="radio" id="choice-1" name= "answer" class="answer" value="True">
-            <label for="1" id="1">True</label><br><br>
+            <label for="choice-1" id="1">True</label><br><br>
             <input type="radio" id="choice-2" name= "answer" class="answer" value="False">
-            <label for="2" id="2">False</label><br><br>
+            <label for="choice-2" id="2">False</label><br><br>
             <br><br>
-            <button id= "submit-answer">Submit</button>
-            <div id = "next"></div>
+            <div class="submit-answer">
+              <button id="submit-answer">Submit</button>
+            </div>
+
           `
       )
     }
