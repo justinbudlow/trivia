@@ -109,36 +109,32 @@ $(function () {
       $('.answers').html(
         //display answer options in radio buttons
         `
-            <input type="radio" id="choice-1" name= "answer" class="answer" value='${shuffledArray[0]}'>
-            <label for="choice-1" id="1">${shuffledArray[0]}</label><br><br>
-            <input type="radio" id="choice-2" name= "answer" class="answer" value='${shuffledArray[1]}'>
-            <label for="choice-2" id="2">${shuffledArray[1]}</label><br><br>
-            <input type="radio" id="choice-3" name= "answer" class="answer" value='${shuffledArray[2]}'>
-            <label for="choice-3" id="3">${shuffledArray[2]}</label><br><br>
-            <input type="radio" id="choice-4" name= "answer" class="answer" value='${shuffledArray[3]}'>
-            <label for="choice-4" id="4">${shuffledArray[3]}</label>
-            <br><br>
-            <div class="submit-answer">
-              <button id="submit-answer">Submit</button>
-            </div>
+          <input type="radio" id="choice-1" name= "answer" class="answer" value='${shuffledArray[0]}'>
+          <label for="choice-1" id="1">${shuffledArray[0]}</label><br><br>
+          <input type="radio" id="choice-2" name= "answer" class="answer" value='${shuffledArray[1]}'>
+          <label for="choice-2" id="2">${shuffledArray[1]}</label><br><br>
+          <input type="radio" id="choice-3" name= "answer" class="answer" value='${shuffledArray[2]}'>
+          <label for="choice-3" id="3">${shuffledArray[2]}</label><br><br>
+          <input type="radio" id="choice-4" name= "answer" class="answer" value='${shuffledArray[3]}'>
+          <label for="choice-4" id="4">${shuffledArray[3]}</label>
+          <br><br>
           `
       )
+      $('.submit-answer').html(`<button id="submit-answer">Submit</button>`)
+
     } else {
       //for true/false questions, no shuffling or randomization is needed. these options will always
       //be presented as True and False in that order
       $('.answers').html(
         `
-            <input type="radio" id="choice-1" name= "answer" class="answer" value="True">
-            <label for="choice-1" id="1">True</label><br><br>
-            <input type="radio" id="choice-2" name= "answer" class="answer" value="False">
-            <label for="choice-2" id="2">False</label><br><br>
-            <br><br>
-            <div class="submit-answer">
-              <button id="submit-answer">Submit</button>
-            </div>
-
-          `
+          <input type="radio" id="choice-1" name= "answer" class="answer" value="True">
+          <label for="choice-1" id="1">True</label><br><br>
+          <input type="radio" id="choice-2" name= "answer" class="answer" value="False">
+          <label for="choice-2" id="2">False</label><br><br>
+          <br><br>
+        `
       )
+      $('.submit-answer').html(`<button id="submit-answer">Submit</button>`)
     }
 
     //checks to see if the submitted answer is correct
@@ -244,10 +240,12 @@ $(function () {
 
   function endGame() {
     $('.score').html(`<i>Your score</i>: ${userScore} / ${numberOfQuestions}`)
-    $('.question-group').html('')
+    $('.q').html('')
+    $('.answers').remove()
     $('.question-number').html('')
     $('.countdown').remove()
     $('#done').html("Game Over")
+    $('.submit-answer').remove()
     $('.play-again').html(`<button id="restart">Play Again</button>`)
   }
 
